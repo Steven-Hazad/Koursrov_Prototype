@@ -1,0 +1,294 @@
+
+<h2 class="sr-only">SrovChlart app feature plan — rice market platform for Cambodian farmers and buyers</h2>
+
+<style>
+  .wrap { padding: 1rem 0; font-family: var(--font-sans); }
+  .section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 10px; }
+  .role-tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .rtab { padding: 6px 14px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); font-size: 13px; cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); }
+  .rtab.active { background: var(--color-background-secondary); color: var(--color-text-primary); font-weight: 500; border-color: var(--color-border-primary); }
+  .view { display: none; }
+  .view.active { display: block; }
+  .phase-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 10px; }
+  .fcard { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 0.9rem 1rem; }
+  .fcard-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .ficon { width: 30px; height: 30px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .ftitle { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .fdesc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.55; margin: 0; }
+  .phase-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; }
+  .p1 { background: var(--color-background-success); color: var(--color-text-success); }
+  .p2 { background: var(--color-background-info); color: var(--color-text-info); }
+  .p3 { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .screen-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 10px; }
+  .screen { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 10px; }
+  .screen-name { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 6px; }
+  .screen-items { list-style: none; margin: 0; padding: 0; }
+  .screen-items li { font-size: 11px; color: var(--color-text-secondary); padding: 3px 0; border-bottom: 0.5px solid var(--color-border-tertiary); line-height: 1.4; }
+  .screen-items li:last-child { border-bottom: none; }
+  .flow-box { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem; margin-bottom: 10px; }
+  .flow-steps { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .fstep { font-size: 12px; padding: 4px 10px; border-radius: var(--border-radius-md); background: var(--color-background-secondary); color: var(--color-text-primary); }
+  .farrow { font-size: 12px; color: var(--color-text-tertiary); }
+  .deepdive-btn { margin-top: 1rem; padding: 8px 16px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); font-size: 13px; cursor: pointer; width: 100%; }
+  .deepdive-btn:hover { background: var(--color-background-secondary); }
+  .lang-badge { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 99px; background: var(--color-background-warning); color: var(--color-text-warning); margin-left: 4px; }
+</style>
+
+<div class="wrap">
+  <div class="role-tabs">
+    <button class="rtab active" onclick="show('features')">Core features</button>
+    <button class="rtab" onclick="show('screens')">App screens</button>
+    <button class="rtab" onclick="show('flows')">Key user flows</button>
+  </div>
+
+  <!-- FEATURES VIEW -->
+  <div class="view active" id="v-features">
+
+    <p class="section-label">Phase 1 — launch (MVP)</p>
+    <div class="phase-row">
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-success);"><i class="ti ti-chart-line" style="font-size:16px;color:var(--color-text-success);" aria-hidden="true"></i></div>
+          <span class="ftitle">Live rice price feed</span>
+        </div>
+        <p class="fdesc">Daily updated market prices for jasmine, white, and fragrant rice per kg — pulled from Phnom Penh and provincial markets. Farmers see fair price before negotiating. <span class="lang-badge">Khmer + EN</span></p>
+      </div>
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-success);"><i class="ti ti-speakerphone" style="font-size:16px;color:var(--color-text-success);" aria-hidden="true"></i></div>
+          <span class="ftitle">Harvest listing</span>
+        </div>
+        <p class="fdesc">Farmers post their available rice — quantity (kg/ton), rice variety, location, and asking price. Simple photo upload. Buyers can browse and contact directly.</p>
+      </div>
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-success);"><i class="ti ti-shield-check" style="font-size:16px;color:var(--color-text-success);" aria-hidden="true"></i></div>
+          <span class="ftitle">Verified profiles</span>
+        </div>
+        <p class="fdesc">Farmers verify via phone number + province. Buyers verify with business registration. Trust badges displayed on all listings. Reduces scam risk on both sides.</p>
+      </div>
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-success);"><i class="ti ti-message-circle" style="font-size:16px;color:var(--color-text-success);" aria-hidden="true"></i></div>
+          <span class="ftitle">In-app chat</span>
+        </div>
+        <p class="fdesc">Buyer and farmer negotiate directly in-app — no need to share personal phone numbers until a deal is agreed. Chat history saved for dispute resolution.</p>
+      </div>
+    </div>
+
+    <p class="section-label">Phase 2 — growth</p>
+    <div class="phase-row">
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-info);"><i class="ti ti-trending-up" style="font-size:16px;color:var(--color-text-info);" aria-hidden="true"></i></div>
+          <span class="ftitle">Price history chart</span>
+        </div>
+        <p class="fdesc">30/90-day price trends per rice variety. Farmers see when prices peak seasonally — empowering them to time their sale and not panic-sell at harvest.</p>
+      </div>
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-info);"><i class="ti ti-star" style="font-size:16px;color:var(--color-text-info);" aria-hidden="true"></i></div>
+          <span class="ftitle">Rating & review</span>
+        </div>
+        <p class="fdesc">After each transaction both sides rate each other (1–5 stars, short comment). Builds a reputation system that rewards honest traders and flags bad actors.</p>
+      </div>
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-info);"><i class="ti ti-bell" style="font-size:16px;color:var(--color-text-info);" aria-hidden="true"></i></div>
+          <span class="ftitle">Price alerts</span>
+        </div>
+        <p class="fdesc">Farmer sets a target price per kg. App sends push notification when market price hits that level. Buyers can alert for when large supply is available in their region.</p>
+      </div>
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-info);"><i class="ti ti-map-pin" style="font-size:16px;color:var(--color-text-info);" aria-hidden="true"></i></div>
+          <span class="ftitle">Province filter</span>
+        </div>
+        <p class="fdesc">Buyers filter listings by province (Kampong Cham, Prey Veng, Kandal etc.). Farmers see buyer demand in their area. Reduces transport cost and improves matching.</p>
+      </div>
+    </div>
+
+    <p class="section-label">Phase 3 — scale</p>
+    <div class="phase-row">
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-warning);"><i class="ti ti-link" style="font-size:16px;color:var(--color-text-warning);" aria-hidden="true"></i></div>
+          <span class="ftitle">Transaction record</span>
+        </div>
+        <p class="fdesc">Confirmed deals are logged on-platform with price, quantity, date, and both parties. Farmers build a verifiable sales history — usable as collateral for future microloans from MFI partners.</p>
+      </div>
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-warning);"><i class="ti ti-certificate" style="font-size:16px;color:var(--color-text-warning);" aria-hidden="true"></i></div>
+          <span class="ftitle">Traceability report</span>
+        </div>
+        <p class="fdesc">Exporters and premium buyers (hotels, EU importers) get a supply chain report: farm location, harvest date, variety, and transaction history. Enables premium pricing and EU market access.</p>
+      </div>
+      <div class="fcard">
+        <div class="fcard-head">
+          <div class="ficon" style="background:var(--color-background-warning);"><i class="ti ti-users" style="font-size:16px;color:var(--color-text-warning);" aria-hidden="true"></i></div>
+          <span class="ftitle">Cooperative group</span>
+        </div>
+        <p class="fdesc">Farmer cooperatives can create a group listing — pooling supply from 10–50 members to offer bulk quantities that attract larger exporters and better prices.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREENS VIEW -->
+  <div class="view" id="v-screens">
+    <p class="section-label">Farmer app screens</p>
+    <div class="screen-grid">
+      <div class="screen">
+        <p class="screen-name"><i class="ti ti-home" aria-hidden="true"></i> Home</p>
+        <ul class="screen-items">
+          <li>Today's rice price (3 varieties)</li>
+          <li>Price vs yesterday indicator</li>
+          <li>My active listings</li>
+          <li>Unread buyer messages</li>
+          <li>Price alert status</li>
+        </ul>
+      </div>
+      <div class="screen">
+        <p class="screen-name"><i class="ti ti-chart-bar" aria-hidden="true"></i> Prices</p>
+        <ul class="screen-items">
+          <li>Jasmine / White / Fragrant tabs</li>
+          <li>Price per kg (Khmer Riel + USD)</li>
+          <li>30-day trend chart</li>
+          <li>Province price comparison</li>
+          <li>Set price alert button</li>
+        </ul>
+      </div>
+      <div class="screen">
+        <p class="screen-name"><i class="ti ti-plus" aria-hidden="true"></i> Post harvest</p>
+        <ul class="screen-items">
+          <li>Rice variety selector</li>
+          <li>Quantity (kg / ton input)</li>
+          <li>My asking price</li>
+          <li>Province + village</li>
+          <li>Photo upload (optional)</li>
+          <li>Available from date</li>
+        </ul>
+      </div>
+      <div class="screen">
+        <p class="screen-name"><i class="ti ti-message-circle" aria-hidden="true"></i> Messages</p>
+        <ul class="screen-items">
+          <li>Buyer inquiry list</li>
+          <li>In-app chat per listing</li>
+          <li>Deal confirm / decline</li>
+          <li>Transaction summary</li>
+        </ul>
+      </div>
+      <div class="screen">
+        <p class="screen-name"><i class="ti ti-user" aria-hidden="true"></i> My profile</p>
+        <ul class="screen-items">
+          <li>Verification badge</li>
+          <li>Province + land size</li>
+          <li>Transaction history</li>
+          <li>Star rating</li>
+          <li>Reviews from buyers</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="section-label" style="margin-top:12px;">Buyer app screens</p>
+    <div class="screen-grid">
+      <div class="screen">
+        <p class="screen-name"><i class="ti ti-home" aria-hidden="true"></i> Home</p>
+        <ul class="screen-items">
+          <li>Nearby listings (by province)</li>
+          <li>New listings today</li>
+          <li>Saved farmers</li>
+          <li>Active orders</li>
+        </ul>
+      </div>
+      <div class="screen">
+        <p class="screen-name"><i class="ti ti-search" aria-hidden="true"></i> Find rice</p>
+        <ul class="screen-items">
+          <li>Filter: variety, province, qty</li>
+          <li>Filter: verified sellers only</li>
+          <li>Sort: price, distance, rating</li>
+          <li>Listing cards with farmer badge</li>
+        </ul>
+      </div>
+      <div class="screen">
+        <p class="screen-name"><i class="ti ti-file-text" aria-hidden="true"></i> Listing detail</p>
+        <ul class="screen-items">
+          <li>Farmer name + verified badge</li>
+          <li>Rice variety + quantity</li>
+          <li>Asking price vs market price</li>
+          <li>Farm location (province)</li>
+          <li>Farmer star rating + reviews</li>
+          <li>Contact / Chat button</li>
+        </ul>
+      </div>
+      <div class="screen">
+        <p class="screen-name"><i class="ti ti-certificate" aria-hidden="true"></i> Traceability</p>
+        <ul class="screen-items">
+          <li>Transaction history PDF</li>
+          <li>Farm origin details</li>
+          <li>Harvest date log</li>
+          <li>Share / download report</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOWS VIEW -->
+  <div class="view" id="v-flows">
+    <div class="flow-box">
+      <p class="section-label">Farmer posts a harvest listing</p>
+      <div class="flow-steps">
+        <span class="fstep">Open app</span><span class="farrow">→</span>
+        <span class="fstep">Check today's price</span><span class="farrow">→</span>
+        <span class="fstep">Tap "Post harvest"</span><span class="farrow">→</span>
+        <span class="fstep">Select variety + qty</span><span class="farrow">→</span>
+        <span class="fstep">Set asking price</span><span class="farrow">→</span>
+        <span class="fstep">Confirm province</span><span class="farrow">→</span>
+        <span class="fstep">Listing live</span>
+      </div>
+    </div>
+    <div class="flow-box">
+      <p class="section-label">Buyer finds and contacts a farmer</p>
+      <div class="flow-steps">
+        <span class="fstep">Search rice</span><span class="farrow">→</span>
+        <span class="fstep">Filter by province</span><span class="farrow">→</span>
+        <span class="fstep">View listing + farmer rating</span><span class="farrow">→</span>
+        <span class="fstep">Compare vs market price</span><span class="farrow">→</span>
+        <span class="fstep">Open in-app chat</span><span class="farrow">→</span>
+        <span class="fstep">Negotiate price</span><span class="farrow">→</span>
+        <span class="fstep">Confirm deal</span>
+      </div>
+    </div>
+    <div class="flow-box">
+      <p class="section-label">After deal — trust building</p>
+      <div class="flow-steps">
+        <span class="fstep">Deal confirmed in app</span><span class="farrow">→</span>
+        <span class="fstep">Transaction logged</span><span class="farrow">→</span>
+        <span class="fstep">Both sides rate each other</span><span class="farrow">→</span>
+        <span class="fstep">Farmer history grows</span><span class="farrow">→</span>
+        <span class="fstep">Buyer gets traceability report</span>
+      </div>
+    </div>
+    <div class="flow-box">
+      <p class="section-label">Farmer sets a price alert</p>
+      <div class="flow-steps">
+        <span class="fstep">Go to Prices screen</span><span class="farrow">→</span>
+        <span class="fstep">Select rice variety</span><span class="farrow">→</span>
+        <span class="fstep">Set target price/kg</span><span class="farrow">→</span>
+        <span class="fstep">App monitors daily</span><span class="farrow">→</span>
+        <span class="fstep">Push notification sent</span><span class="farrow">→</span>
+        <span class="fstep">Farmer posts listing</span>
+      </div>
+    </div>
+    <button class="deepdive-btn" onclick="sendPrompt('Design the database schema for SrovChlart covering farmers, buyers, listings, prices, and transactions')">Design the database schema for SrovChlart ↗</button>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.rtab').forEach(t => t.classList.remove('active'));
+  document.getElementById('v-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
