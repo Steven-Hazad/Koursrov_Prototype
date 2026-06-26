@@ -23,6 +23,10 @@ import {
   Check,
   Phone,
   Sprout,
+  Image as ImageIcon,
+  Paperclip,
+  Trash2,
+  Loader2,
 } from "lucide-react";
 import {
   LineChart,
@@ -100,6 +104,10 @@ const translations = {
     availableFrom: "Available From",
     photoOptional: "Photo (Optional)",
     tapToUpload: "Tap to upload rice photo",
+    changePhoto: "Tap to change photo",
+    removePhoto: "Remove",
+    uploading: "Uploading...",
+    photoAdded: "Photo added",
     postListing: "Post Listing",
     listingLive: "Listing is Live!",
     listingLiveDesc: "Your harvest listing is now visible to buyers across Cambodia.",
@@ -111,6 +119,14 @@ const translations = {
     confirmDeal: "Confirm Deal",
     decline: "Decline",
     typeMessage: "Type a message...",
+    attachPhoto: "Attach photo",
+    typing: "typing...",
+    delivered: "Delivered",
+    sent: "Sent",
+    online: "Online",
+    lastSeen: "Last seen",
+    dealConfirmedMsg: "Deal confirmed! 🎉",
+    declinedMsg: "Offer declined.",
     // Profile
     transactions: "Transactions",
     tonsSold: "Tons Sold",
@@ -224,6 +240,10 @@ const translations = {
     availableFrom: "ចាប់ពី",
     photoOptional: "រូបថត (ស្រេចចិត្ត)",
     tapToUpload: "ចុចដើម្បីផ្ទុករូបថតអង្ករ",
+    changePhoto: "ចុចដើម្បីប្ដូររូបថត",
+    removePhoto: "លុប",
+    uploading: "កំពុងផ្ទុក...",
+    photoAdded: "បានបន្ថែមរូបថត",
     postListing: "ប្រកាស",
     listingLive: "បញ្ជីដំណូរបានប្រកាស!",
     listingLiveDesc: "បញ្ជីដំណូររបស់អ្នកឥឡូវនេះអ្នកទិញទូទាំងប្រទេសអាចមើលឃើញ។",
@@ -235,6 +255,14 @@ const translations = {
     confirmDeal: "បញ្ជាក់កិច្ចព្រមព្រៀង",
     decline: "បដិសេធ",
     typeMessage: "វាយសារ...",
+    attachPhoto: "ភ្ជាប់រូបថត",
+    typing: "កំពុងវាយ...",
+    delivered: "បានទទួល",
+    sent: "បានផ្ញើ",
+    online: "កំពុងប្រើ",
+    lastSeen: "ឃើញចុងក្រោយ",
+    dealConfirmedMsg: "កិច្ចព្រមព្រៀងបានបញ្ជាក់! 🎉",
+    declinedMsg: "ការផ្ដល់ជូនត្រូវបានបដិសេធ។",
     // Profile
     transactions: "ប្រតិបត្តិការ",
     tonsSold: "តោនបានលក់",
@@ -333,6 +361,8 @@ const listingsData = (t: T) => [
     verified: true,
     available: t.lang === "km" ? "៣ កក្កដា ២០២៦" : "Jul 3, 2026",
     badge: "សដ",
+    photo: "https://images.unsplash.com/photo-1536304993881-ff6e9eefa49a?w=600&h=450&fit=crop&q=80",
+    avatarPhoto: "https://images.unsplash.com/photo-1602524207003-fd2f81d52ba6?w=200&h=200&fit=crop&q=80",
   },
   {
     id: 2,
@@ -348,6 +378,8 @@ const listingsData = (t: T) => [
     verified: true,
     available: t.lang === "km" ? "១ កក្កដា ២០២៦" : "Jul 1, 2026",
     badge: "ពប",
+    photo: "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=600&h=450&fit=crop&q=80",
+    avatarPhoto: "https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?w=200&h=200&fit=crop&q=80",
   },
   {
     id: 3,
@@ -363,6 +395,8 @@ const listingsData = (t: T) => [
     verified: true,
     available: t.lang === "km" ? "២៨ មិថុនា ២០២៦" : "Jun 28, 2026",
     badge: "មស",
+    photo: "https://images.unsplash.com/photo-1530507629358-44a3c7f5ca29?w=600&h=450&fit=crop&q=80",
+    avatarPhoto: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&h=200&fit=crop&q=80",
   },
   {
     id: 4,
@@ -378,6 +412,8 @@ const listingsData = (t: T) => [
     verified: false,
     available: t.lang === "km" ? "១០ កក្កដា ២០២៦" : "Jul 10, 2026",
     badge: "ជរ",
+    photo: "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=600&h=450&fit=crop&q=80",
+    avatarPhoto: "https://images.unsplash.com/photo-1542156822-6924d1a71ace?w=200&h=200&fit=crop&q=80",
   },
 ];
 
@@ -411,23 +447,76 @@ const messagesData = (t: T) => [
   },
 ];
 
-const chatHistoryData = (t: T) => [
-  {
-    from: "buyer",
-    text: t.lang === "km" ? "សួស្ដី, ខ្ញុំចាប់អារម្មណ៍លើអង្ករម្លិះ ៨ តោនរបស់លោក។" : "Hello, I am interested in your 8 tons of jasmine rice.",
-    time: "10:05 AM",
-  },
-  {
-    from: "farmer",
-    text: t.lang === "km" ? "បាទ, មានចាប់ពី ៣ កក្កដា។ កំរិតសំណើម ១៤%។" : "Yes, it is available from July 3. Moisture level is 14%.",
-    time: "10:08 AM",
-  },
-  {
-    from: "buyer",
-    text: t.lang === "km" ? "លោក អាចធ្វើ ២,៣០០ រៀល/គ.ក្រ សម្រាប់ ៨ តោនទាំងអស់ទេ?" : "Can you do 2,300 KHR/kg for the full 8 tons?",
-    time: "10:24 AM",
-  },
-];
+const chatThreadsData = (t: T) => ({
+  1: [
+    {
+      id: "m1",
+      from: "buyer",
+      text: t.lang === "km" ? "សួស្ដី, ខ្ញុំចាប់អារម្មណ៍លើអង្ករម្លិះ ៨ តោនរបស់លោក។" : "Hello, I am interested in your 8 tons of jasmine rice.",
+      time: "10:05 AM",
+    },
+    {
+      id: "m2",
+      from: "farmer",
+      text: t.lang === "km" ? "បាទ, មានចាប់ពី ៣ កក្កដា។ កំរិតសំណើម ១៤%។" : "Yes, it is available from July 3. Moisture level is 14%.",
+      time: "10:08 AM",
+    },
+    {
+      id: "m3",
+      from: "buyer",
+      text: t.lang === "km" ? "លោក អាចធ្វើ ២,៣០០ រៀល/គ.ក្រ សម្រាប់ ៨ តោនទាំងអស់ទេ?" : "Can you do 2,300 KHR/kg for the full 8 tons?",
+      time: "10:24 AM",
+    },
+  ],
+  2: [
+    {
+      id: "m1",
+      from: "buyer",
+      text: t.lang === "km" ? "សួស្ដី លោកស្រី សុភា! យើងចង់ទិញអង្ករក្រអូបទាំង ៤.៥ តោន។" : "Hi Sophea! We'd like to buy all 4.5 tons of fragrant rice.",
+      time: t.lang === "km" ? "ម្សិលមិញ" : "Yesterday",
+    },
+    {
+      id: "m2",
+      from: "farmer",
+      text: t.lang === "km" ? "ល្អណាស់! តម្លៃ ២,២០០ រៀល/គ.ក្រ សុខភាពល្អ ១០០%។" : "Great! Price is 2,200 KHR/kg, top quality.",
+      time: t.lang === "km" ? "ម្សិលមិញ" : "Yesterday",
+    },
+    {
+      id: "m3",
+      from: "buyer",
+      text: t.lang === "km" ? "បានបញ្ជាក់។ យើងនឹងរៀបចំការទទួល ២ កក្កដា។" : "Deal confirmed. We will arrange pickup on Jul 2.",
+      time: t.lang === "km" ? "ម្សិលមិញ" : "Yesterday",
+    },
+  ],
+  3: [
+    {
+      id: "m1",
+      from: "buyer",
+      text: t.lang === "km" ? "សួស្ដី! ខ្ញុំឃើញការប្រកាសអង្ករម្លិះ ២ តោនរបស់លោក។" : "Hi! I saw your jasmine rice listing for 2 tons.",
+      time: "Jun 23",
+    },
+    {
+      id: "m2",
+      from: "buyer",
+      text: t.lang === "km" ? "កំរិតសំណើម​ប៉ុន្មាន? មានលិខិតអត្តសញ្ញាណទេ?" : "What is the moisture level? Do you have cert?",
+      time: "Jun 23",
+    },
+  ],
+});
+
+const autoReplyPool = (t: T) => (t.lang === "km"
+  ? [
+      "យល់ព្រម, ខ្ញុំនឹងពិនិត្យមើល។",
+      "តម្លៃនេះអាចចរចាបាន។",
+      "សូមអរគុណចំពោះព័ត៌មាន!",
+      "យើងអាចរៀបចំការដឹកជញ្ជូនបាន។",
+    ]
+  : [
+      "Got it, let me check on that.",
+      "That price could be negotiable.",
+      "Thanks for the info!",
+      "We can arrange transport on our end.",
+    ]);
 
 /* ─── HELPERS ────────────────────────────────────────────── */
 
@@ -460,14 +549,37 @@ function Badge({ text, color }: { text: string; color: string }) {
   );
 }
 
-function Avatar({ initials, size = "md" }: { initials: string; size?: "sm" | "md" | "lg" }) {
+function Avatar({ initials, size = "md", photo }: { initials: string; size?: "sm" | "md" | "lg"; photo?: string }) {
   const { lang } = useLang();
+  const [errored, setErrored] = useState(false);
   const s = size === "sm" ? "w-7 h-7 text-xs" : size === "lg" ? "w-12 h-12 text-base" : "w-9 h-9 text-sm";
+  if (photo && !errored) {
+    return (
+      <img
+        src={photo}
+        alt={initials}
+        onError={() => setErrored(true)}
+        className={`${s} rounded-full object-cover flex-shrink-0 border border-border`}
+      />
+    );
+  }
   return (
     <div className={`${s} rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold flex-shrink-0`} style={khFont(lang)}>
       {initials}
     </div>
   );
+}
+
+function ImageWithFallback({ src, alt, className }: { src?: string; alt: string; className?: string }) {
+  const [errored, setErrored] = useState(false);
+  if (!src || errored) {
+    return (
+      <div className={`${className} bg-gradient-to-br from-primary/15 to-accent/20 flex items-center justify-center`}>
+        <Sprout size={22} className="text-primary/40" />
+      </div>
+    );
+  }
+  return <img src={src} alt={alt} onError={() => setErrored(true)} className={className} loading="lazy" />;
 }
 
 function StarRow({ rating, count }: { rating: number; count: number }) {
@@ -487,6 +599,83 @@ function SectionLabel({ children }: { children: string }) {
   );
 }
 
+/* ─── PHOTO UPLOAD (real file input + preview) ──────────────── */
+
+let __srovPhotoUid = 0;
+
+function PhotoUpload({
+  value,
+  onChange,
+  inputId,
+}: {
+  value: string | null;
+  onChange: (dataUrl: string | null) => void;
+  inputId?: string;
+}) {
+  const { t, lang } = useLang();
+  const [loading, setLoading] = useState(false);
+  const id = inputId || `srov-photo-${++__srovPhotoUid}`;
+
+  function handleFile(file: File | undefined) {
+    if (!file) return;
+    setLoading(true);
+    const reader = new FileReader();
+    reader.onload = () => {
+      // tiny artificial delay so the "uploading" state is perceptible/feels real
+      setTimeout(() => {
+        onChange(reader.result as string);
+        setLoading(false);
+      }, 450);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  if (value) {
+    return (
+      <div className="relative rounded-xl overflow-hidden border border-border group">
+        <img src={value} alt="" className="w-full h-36 object-cover" />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+        <label
+          htmlFor={id}
+          className="absolute bottom-2 left-2 bg-card/90 backdrop-blur px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-foreground flex items-center gap-1.5 cursor-pointer shadow-sm"
+          style={khFont(lang)}
+        >
+          <ImageIcon size={11} /> {t.changePhoto}
+        </label>
+        <button
+          type="button"
+          onClick={() => onChange(null)}
+          className="absolute bottom-2 right-2 bg-destructive/90 backdrop-blur px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-white flex items-center gap-1.5 shadow-sm"
+          style={khFont(lang)}
+        >
+          <Trash2 size={11} /> {t.removePhoto}
+        </button>
+        <input id={id} type="file" accept="image/*" className="hidden" onChange={(e) => handleFile(e.target.files?.[0])} />
+      </div>
+    );
+  }
+
+  return (
+    <label
+      htmlFor={id}
+      className="bg-card border border-dashed border-border rounded-xl p-4 text-center flex flex-col items-center justify-center cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-colors h-36"
+    >
+      {loading ? (
+        <>
+          <Loader2 size={20} className="text-primary mb-1 animate-spin" />
+          <p className="text-xs text-muted-foreground" style={khFont(lang)}>{t.uploading}</p>
+        </>
+      ) : (
+        <>
+          <Package size={20} className="text-muted-foreground mb-1" />
+          <p className="text-xs text-muted-foreground" style={khFont(lang)}>{t.tapToUpload}</p>
+        </>
+      )}
+      <input id={id} type="file" accept="image/*" className="hidden" onChange={(e) => handleFile(e.target.files?.[0])} />
+    </label>
+  );
+}
+
 /* ─── SPLASH SCREEN ──────────────────────────────────────── */
 
 function SplashScreen({ onDone }: { onDone: () => void }) {
@@ -503,11 +692,24 @@ function SplashScreen({ onDone }: { onDone: () => void }) {
 
   return (
     <div
-      className="flex flex-col items-center justify-center h-full px-8 transition-opacity duration-500"
+      className="flex flex-col items-center justify-center h-full px-8 transition-opacity duration-500 relative overflow-hidden"
       style={{ background: "#1A4731", opacity: stage === 2 ? 0 : 1 }}
     >
+      {/* Ambient rice field photo, heavily darkened so it reads as texture not a photo */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: "url(https://images.unsplash.com/photo-1536304993881-ff6e9eefa49a?w=800&q=60)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: stage >= 1 ? 0.22 : 0,
+          transition: "opacity 1200ms ease",
+        }}
+      />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, #1A4731 0%, rgba(26,71,49,0.75) 45%, #1A4731 100%)" }} />
+
       {/* signature mark: three sprouts rising at staggered heights, like rice stalks */}
-      <div className="flex items-end gap-3 mb-5" style={{ height: 56 }}>
+      <div className="flex items-end gap-3 mb-5 relative z-10" style={{ height: 56 }}>
         {[0, 1, 2].map((i) => (
           <div
             key={i}
@@ -524,7 +726,7 @@ function SplashScreen({ onDone }: { onDone: () => void }) {
       </div>
 
       <h1
-        className="text-3xl font-bold tracking-tight"
+        className="text-3xl font-bold tracking-tight relative z-10"
         style={{
           color: "#FFFDF7",
           fontFamily: lang === "km" ? "'Noto Sans Khmer', sans-serif" : "Outfit, sans-serif",
@@ -536,7 +738,7 @@ function SplashScreen({ onDone }: { onDone: () => void }) {
         {lang === "km" ? "ស្រូវឆ្លាត" : "SrovChlart"}
       </h1>
       <p
-        className="text-xs mt-2 text-center"
+        className="text-xs mt-2 text-center relative z-10"
         style={{
           color: "rgba(255,253,247,0.65)",
           fontFamily: lang === "km" ? "'Noto Sans Khmer', sans-serif" : "DM Sans, sans-serif",
@@ -547,7 +749,7 @@ function SplashScreen({ onDone }: { onDone: () => void }) {
         {t.splashLine}
       </p>
 
-      <div className="absolute bottom-12 flex gap-1.5">
+      <div className="absolute bottom-12 flex gap-1.5 z-10">
         {[0, 1, 2].map((i) => (
           <div
             key={i}
@@ -833,8 +1035,11 @@ function FarmerHome({ setScreen }: { setScreen: (s: string) => void }) {
           <button onClick={() => setScreen("post")} className="text-[11px] text-primary font-semibold" style={khFont(lang)}>{t.add}</button>
         </div>
         <div className="bg-card border border-border rounded-xl overflow-hidden">
-          <div className="px-3 py-3 border-b border-border flex items-center justify-between">
-            <div>
+          <div className="px-3 py-3 border-b border-border flex items-center gap-3">
+            <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-secondary">
+              <ImageWithFallback src="https://images.unsplash.com/photo-1536304993881-ff6e9eefa49a?w=200&h=200&fit=crop&q=70" alt="" className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1">
               <p className="text-sm font-semibold text-foreground" style={khFont(lang)}>
                 {lang === "km" ? "អង្ករម្លិះ · ៨ តោន" : "Jasmine Rice · 8 ton"}
               </p>
@@ -842,13 +1047,16 @@ function FarmerHome({ setScreen }: { setScreen: (s: string) => void }) {
                 {lang === "km" ? "ស្នើ: ២,៣៥០ រៀល/គ.ក្រ · ៣ កក្កដា" : "Asking: 2,350 KHR/kg · Jul 3"}
               </p>
             </div>
-            <div className="flex flex-col items-end gap-1">
+            <div className="flex flex-col items-end gap-1 flex-shrink-0">
               <Badge text={t.live} color="bg-emerald-100 text-emerald-700" />
               <p className="text-[10px] text-muted-foreground" style={khFont(lang)}>2 {t.inquiries}</p>
             </div>
           </div>
-          <div className="px-3 py-3 flex items-center justify-between">
-            <div>
+          <div className="px-3 py-3 flex items-center gap-3">
+            <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-secondary">
+              <ImageWithFallback src="https://images.unsplash.com/photo-1530507629358-44a3c7f5ca29?w=200&h=200&fit=crop&q=70" alt="" className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1">
               <p className="text-sm font-semibold text-foreground" style={khFont(lang)}>
                 {lang === "km" ? "អង្ករក្រអូប · ៤.៥ តោន" : "Fragrant Rice · 4.5 ton"}
               </p>
@@ -856,8 +1064,9 @@ function FarmerHome({ setScreen }: { setScreen: (s: string) => void }) {
                 {lang === "km" ? "ស្នើ: ២,២០០ រៀល/គ.ក្រ · ២៨ មិថុនា" : "Asking: 2,200 KHR/kg · Jun 28"}
               </p>
             </div>
-            <div className="flex flex-col items-end gap-1">
+            <div className="flex flex-col items-end gap-1 flex-shrink-0">
               <Badge text={t.live} color="bg-emerald-100 text-emerald-700" />
+
               <p className="text-[10px] text-muted-foreground" style={khFont(lang)}>1 {t.inquiry_one}</p>
             </div>
           </div>
@@ -1006,6 +1215,7 @@ function PostHarvestScreen({ setScreen }: { setScreen: (s: string) => void }) {
   const [qty, setQty] = useState("");
   const [unit, setUnit] = useState("ton");
   const [price, setPrice] = useState("");
+  const [photo, setPhoto] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
   const varieties = lang === "km"
@@ -1016,15 +1226,37 @@ function PostHarvestScreen({ setScreen }: { setScreen: (s: string) => void }) {
     ? ["កំពង់ចាម", "ព្រៃវែង", "កណ្ដាល", "កំពង់ធំ", "បាត់ដំបង", "សៀមរាប"]
     : ["Kampong Cham", "Prey Veng", "Kandal", "Kampong Thom", "Battambang", "Siem Reap"];
 
+  const canPost = qty.trim() !== "" && price.trim() !== "";
+
+  function reset() {
+    setSubmitted(false);
+    setQty("");
+    setPrice("");
+    setPhoto(null);
+    setScreen("home");
+  }
+
   if (submitted) {
     return (
       <div className="flex flex-col h-full items-center justify-center px-8 text-center">
-        <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-          <CheckCircle size={32} className="text-emerald-600" />
-        </div>
+        {photo ? (
+          <div className="w-24 h-24 rounded-2xl overflow-hidden border-2 border-emerald-200 mb-4 relative">
+            <img src={photo} alt="" className="w-full h-full object-cover" />
+            <div className="absolute -bottom-1.5 -right-1.5 w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-card">
+              <Check size={13} className="text-white" />
+            </div>
+          </div>
+        ) : (
+          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+            <CheckCircle size={32} className="text-emerald-600" />
+          </div>
+        )}
         <h2 className="text-lg font-bold text-foreground mb-1" style={displayFont(lang)}>{t.listingLive}</h2>
-        <p className="text-sm text-muted-foreground mb-6" style={khFont(lang)}>{t.listingLiveDesc}</p>
-        <button onClick={() => { setSubmitted(false); setScreen("home"); }} className="w-full py-3 bg-primary text-primary-foreground rounded-xl text-sm font-semibold" style={khFont(lang)}>
+        <p className="text-sm text-muted-foreground mb-1" style={khFont(lang)}>{t.listingLiveDesc}</p>
+        <p className="text-xs text-muted-foreground mb-6" style={khFont(lang)}>
+          {variety} · {qty || "—"} {unit} · {price ? Number(price).toLocaleString() : "—"} KHR/kg
+        </p>
+        <button onClick={reset} className="w-full py-3 bg-primary text-primary-foreground rounded-xl text-sm font-semibold" style={khFont(lang)}>
           {t.backToHome}
         </button>
       </div>
@@ -1087,14 +1319,23 @@ function PostHarvestScreen({ setScreen }: { setScreen: (s: string) => void }) {
         </div>
 
         <div>
-          <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5" style={lang === "km" ? { fontFamily: "'Noto Sans Khmer', sans-serif", textTransform: "none", letterSpacing: 0 } : {}}>{t.photoOptional}</label>
-          <div className="bg-card border border-dashed border-border rounded-xl p-4 text-center">
-            <Package size={20} className="mx-auto text-muted-foreground mb-1" />
-            <p className="text-xs text-muted-foreground" style={khFont(lang)}>{t.tapToUpload}</p>
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider" style={lang === "km" ? { fontFamily: "'Noto Sans Khmer', sans-serif", textTransform: "none", letterSpacing: 0 } : {}}>{t.photoOptional}</label>
+            {photo && (
+              <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1" style={khFont(lang)}>
+                <Check size={10} /> {t.photoAdded}
+              </span>
+            )}
           </div>
+          <PhotoUpload value={photo} onChange={setPhoto} inputId="srov-post-photo" />
         </div>
 
-        <button onClick={() => setSubmitted(true)} className="w-full py-3 bg-primary text-primary-foreground rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors" style={khFont(lang)}>
+        <button
+          disabled={!canPost}
+          onClick={() => setSubmitted(true)}
+          className={`w-full py-3 rounded-xl text-sm font-semibold transition-colors ${canPost ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary text-muted-foreground"}`}
+          style={khFont(lang)}
+        >
           {t.postListing}
         </button>
       </div>
@@ -1102,59 +1343,191 @@ function PostHarvestScreen({ setScreen }: { setScreen: (s: string) => void }) {
   );
 }
 
-function MessagesScreen({ setScreen }: { setScreen: (s: string) => void }) {
+function ChatThread({
+  conversation,
+  onBack,
+  onStatusChange,
+}: {
+  conversation: ReturnType<typeof messagesData>[number];
+  onBack: () => void;
+  onStatusChange: (status: string, lastText: string) => void;
+}) {
   const { t, lang } = useLang();
-  const messages = messagesData(t as any);
-  const chatHistory = chatHistoryData(t as any);
-  const [activeChat, setActiveChat] = useState<number | null>(null);
+  const seedThreads = chatThreadsData(t as any) as Record<number, any[]>;
+  const [thread, setThread] = useState(() => seedThreads[conversation.id] || []);
   const [input, setInput] = useState("");
+  const [pendingImage, setPendingImage] = useState<string | null>(null);
+  const [peerTyping, setPeerTyping] = useState(false);
+  const [status, setStatus] = useState(conversation.status);
+  const replies = autoReplyPool(t as any);
+  const m = conversation;
+  const initials = lang === "km" ? (m.id === 1 ? "ហអ" : m.id === 2 ? "មមផ" : "កស") : m.buyer.slice(0, 2).toUpperCase();
+  const fileInputId = `srov-chat-attach-${m.id}`;
 
-  if (activeChat !== null) {
-    const m = messages.find((x) => x.id === activeChat)!;
-    const initials = lang === "km" ? (activeChat === 1 ? "ហអ" : activeChat === 2 ? "មមផ" : "កស") : m.buyer.slice(0, 2).toUpperCase();
-    return (
-      <div className="flex flex-col h-full">
-        <div className="px-3 pt-4 pb-3 border-b border-border flex items-center gap-2">
-          <button onClick={() => setActiveChat(null)} className="p-1"><ArrowLeft size={18} className="text-foreground" /></button>
-          <Avatar initials={initials} size="sm" />
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-foreground" style={khFont(lang)}>{m.buyer}</p>
-            <p className="text-[10px] text-muted-foreground" style={khFont(lang)}>{m.listing}</p>
-          </div>
-          {m.status === "confirmed"
-            ? <Badge text={t.confirmed} color="bg-emerald-100 text-emerald-700" />
-            : <Badge text={t.negotiating} color="bg-amber-100 text-amber-700" />}
+  function nowTime() {
+    const d = new Date();
+    return d.toLocaleTimeString(lang === "km" ? "km-KH" : "en-US", { hour: "numeric", minute: "2-digit" });
+  }
+
+  function pushMessage(msg: { from: "farmer" | "buyer"; text?: string; image?: string }) {
+    setThread((prev) => [...prev, { id: `m${prev.length + 1}-${Date.now()}`, time: nowTime(), ...msg }]);
+  }
+
+  function triggerAutoReply() {
+    setPeerTyping(true);
+    setTimeout(() => {
+      setPeerTyping(false);
+      const reply = replies[Math.floor(Math.random() * replies.length)];
+      pushMessage({ from: "buyer", text: reply });
+    }, 1100 + Math.random() * 800);
+  }
+
+  function handleSend() {
+    const text = input.trim();
+    if (!text && !pendingImage) return;
+    if (pendingImage) pushMessage({ from: "farmer", image: pendingImage });
+    if (text) pushMessage({ from: "farmer", text });
+    setInput("");
+    setPendingImage(null);
+    if (status !== "confirmed") triggerAutoReply();
+  }
+
+  function handleAttach(file: File | undefined) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setPendingImage(reader.result as string);
+    reader.readAsDataURL(file);
+  }
+
+  function handleConfirm() {
+    setStatus("confirmed");
+    pushMessage({ from: "buyer", text: t.dealConfirmedMsg });
+    onStatusChange("confirmed", t.dealConfirmedMsg);
+  }
+
+  function handleDecline() {
+    setStatus("inquiry");
+    pushMessage({ from: "farmer", text: t.declinedMsg });
+    onStatusChange("inquiry", t.declinedMsg);
+  }
+
+  return (
+    <div className="flex flex-col h-full">
+      <div className="px-3 pt-4 pb-3 border-b border-border flex items-center gap-2 flex-shrink-0">
+        <button onClick={onBack} className="p-1"><ArrowLeft size={18} className="text-foreground" /></button>
+        <Avatar initials={initials} size="sm" />
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold text-foreground truncate" style={khFont(lang)}>{m.buyer}</p>
+          <p className="text-[10px] text-muted-foreground truncate" style={khFont(lang)}>{m.listing}</p>
         </div>
+        {status === "confirmed"
+          ? <Badge text={t.confirmed} color="bg-emerald-100 text-emerald-700" />
+          : <Badge text={t.negotiating} color="bg-amber-100 text-amber-700" />}
+      </div>
 
-        <div className="flex-1 overflow-y-auto scrollbar-hide px-3 py-3 space-y-3">
-          {chatHistory.map((ch, i) => (
-            <div key={i} className={`flex ${ch.from === "farmer" ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[75%] px-3 py-2 rounded-2xl ${ch.from === "farmer" ? "bg-primary text-primary-foreground rounded-br-sm" : "bg-card border border-border rounded-bl-sm"}`}>
-                <p className={`text-xs ${ch.from === "farmer" ? "text-primary-foreground" : "text-foreground"}`} style={khFont(lang)}>{ch.text}</p>
-                <p className={`text-[9px] mt-1 ${ch.from === "farmer" ? "text-primary-foreground/60" : "text-muted-foreground"}`}>{ch.time}</p>
-              </div>
+      <div className="flex-1 overflow-y-auto scrollbar-hide px-3 py-3 space-y-3">
+        {thread.map((ch) => (
+          <div key={ch.id} className={`flex ${ch.from === "farmer" ? "justify-end" : "justify-start"}`}>
+            <div className={`max-w-[75%] ${ch.image ? "p-1" : "px-3 py-2"} rounded-2xl ${ch.from === "farmer" ? "bg-primary text-primary-foreground rounded-br-sm" : "bg-card border border-border rounded-bl-sm"}`}>
+              {ch.image && (
+                <img src={ch.image} alt="" className="rounded-xl w-full max-w-[180px] object-cover mb-1" />
+              )}
+              {ch.text && (
+                <p className={`text-xs ${ch.image ? "px-2" : ""} ${ch.from === "farmer" ? "text-primary-foreground" : "text-foreground"}`} style={khFont(lang)}>{ch.text}</p>
+              )}
+              <p className={`text-[9px] mt-1 ${ch.image ? "px-2 pb-1" : ""} ${ch.from === "farmer" ? "text-primary-foreground/60" : "text-muted-foreground"}`}>{ch.time}</p>
             </div>
-          ))}
-        </div>
-
-        {m.status !== "confirmed" && (
-          <div className="px-3 py-2 border-t border-border flex gap-2">
-            <button className="flex-1 py-2 rounded-lg border border-destructive text-destructive text-xs font-semibold flex items-center justify-center gap-1" style={khFont(lang)}>
-              <X size={12} /> {t.decline}
-            </button>
-            <button className="flex-1 py-2 rounded-lg bg-emerald-600 text-white text-xs font-semibold flex items-center justify-center gap-1" style={khFont(lang)}>
-              <Check size={12} /> {t.confirmDeal}
-            </button>
+          </div>
+        ))}
+        {peerTyping && (
+          <div className="flex justify-start">
+            <div className="bg-card border border-border rounded-2xl rounded-bl-sm px-3 py-2.5 flex items-center gap-1">
+              {[0, 1, 2].map((i) => (
+                <span key={i} className="w-1.5 h-1.5 rounded-full bg-muted-foreground" style={{ animation: `srov-typing-dot 1s ease-in-out ${i * 0.15}s infinite` }} />
+              ))}
+            </div>
           </div>
         )}
+      </div>
 
-        <div className="px-3 py-2 border-t border-border flex items-center gap-2">
-          <input value={input} onChange={(e) => setInput(e.target.value)} placeholder={t.typeMessage} className="flex-1 bg-input-background rounded-full px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none" style={khFont(lang)} />
-          <button className="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-            <Send size={13} className="text-primary-foreground" />
+      {status !== "confirmed" && (
+        <div className="px-3 py-2 border-t border-border flex gap-2 flex-shrink-0">
+          <button onClick={handleDecline} className="flex-1 py-2 rounded-lg border border-destructive text-destructive text-xs font-semibold flex items-center justify-center gap-1" style={khFont(lang)}>
+            <X size={12} /> {t.decline}
+          </button>
+          <button onClick={handleConfirm} className="flex-1 py-2 rounded-lg bg-emerald-600 text-white text-xs font-semibold flex items-center justify-center gap-1" style={khFont(lang)}>
+            <Check size={12} /> {t.confirmDeal}
           </button>
         </div>
+      )}
+
+      {pendingImage && (
+        <div className="px-3 pt-2 flex-shrink-0">
+          <div className="relative inline-block">
+            <img src={pendingImage} alt="" className="h-16 w-16 object-cover rounded-lg border border-border" />
+            <button onClick={() => setPendingImage(null)} className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-destructive rounded-full flex items-center justify-center">
+              <X size={10} className="text-white" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="px-3 py-2 border-t border-border flex items-center gap-2 flex-shrink-0">
+        <label htmlFor={fileInputId} className="w-8 h-8 rounded-full border border-border flex items-center justify-center flex-shrink-0 cursor-pointer text-muted-foreground hover:text-primary hover:border-primary transition-colors">
+          <Paperclip size={14} />
+        </label>
+        <input id={fileInputId} type="file" accept="image/*" className="hidden" onChange={(e) => handleAttach(e.target.files?.[0])} />
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter") handleSend(); }}
+          placeholder={t.typeMessage}
+          className="flex-1 bg-input-background rounded-full px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none"
+          style={khFont(lang)}
+        />
+        <button
+          onClick={handleSend}
+          disabled={!input.trim() && !pendingImage}
+          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${input.trim() || pendingImage ? "bg-primary" : "bg-secondary"}`}
+        >
+          <Send size={13} className={input.trim() || pendingImage ? "text-primary-foreground" : "text-muted-foreground"} />
+        </button>
       </div>
+      <style>{`
+        @keyframes srov-typing-dot {
+          0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+          30% { transform: translateY(-3px); opacity: 1; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function MessagesScreen({ setScreen }: { setScreen: (s: string) => void }) {
+  const { t, lang } = useLang();
+  const seedMessages = messagesData(t as any);
+  const [conversations, setConversations] = useState(seedMessages);
+  const [activeChat, setActiveChat] = useState<number | null>(null);
+
+  function openChat(id: number) {
+    setActiveChat(id);
+    setConversations((prev) => prev.map((c) => (c.id === id ? { ...c, unread: 0 } : c)));
+  }
+
+  function handleStatusChange(id: number, status: string, lastText: string) {
+    setConversations((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, status, last: lastText, time: lang === "km" ? "ឥឡូវនេះ" : "Now" } : c))
+    );
+  }
+
+  if (activeChat !== null) {
+    const conv = conversations.find((x) => x.id === activeChat)!;
+    return (
+      <ChatThread
+        conversation={conv}
+        onBack={() => setActiveChat(null)}
+        onStatusChange={(status, lastText) => handleStatusChange(activeChat, status, lastText)}
+      />
     );
   }
 
@@ -1162,13 +1535,13 @@ function MessagesScreen({ setScreen }: { setScreen: (s: string) => void }) {
     <div className="flex flex-col h-full overflow-y-auto scrollbar-hide">
       <div className="px-4 pt-5 pb-3">
         <h1 className="text-xl font-bold text-foreground" style={displayFont(lang)}>{t.messages}</h1>
-        <p className="text-xs text-muted-foreground mt-0.5" style={khFont(lang)}>3 {t.conversations}</p>
+        <p className="text-xs text-muted-foreground mt-0.5" style={khFont(lang)}>{conversations.length} {t.conversations}</p>
       </div>
       <div className="px-4 space-y-2">
-        {messages.map((m) => {
+        {conversations.map((m) => {
           const initials = lang === "km" ? (m.id === 1 ? "ហអ" : m.id === 2 ? "មមផ" : "កស") : m.buyer.slice(0, 2).toUpperCase();
           return (
-            <button key={m.id} onClick={() => setActiveChat(m.id)} className="w-full bg-card border border-border rounded-xl px-3 py-3 flex items-center gap-3 text-left">
+            <button key={m.id} onClick={() => openChat(m.id)} className="w-full bg-card border border-border rounded-xl px-3 py-3 flex items-center gap-3 text-left">
               <Avatar initials={initials} size="sm" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-0.5">
@@ -1191,12 +1564,21 @@ function MessagesScreen({ setScreen }: { setScreen: (s: string) => void }) {
 
 function ProfileScreen() {
   const { t, lang } = useLang();
+  const sokDaraPhoto = "https://images.unsplash.com/photo-1602524207003-fd2f81d52ba6?w=200&h=200&fit=crop&q=80";
   return (
     <div className="flex flex-col h-full overflow-y-auto scrollbar-hide">
-      <div className="px-4 pt-5 pb-4">
+      <div className="h-20 relative -mb-8">
+        <ImageWithFallback
+          src="https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=800&h=200&fit=crop&q=70"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(26,71,49,0.15) 0%, rgba(255,253,247,0.95) 100%)" }} />
+      </div>
+      <div className="px-4 pt-2 pb-4 relative">
         <div className="flex items-start gap-4">
-          <Avatar initials={lang === "km" ? "សដ" : "SD"} size="lg" />
-          <div className="flex-1">
+          <Avatar initials={lang === "km" ? "សដ" : "SD"} size="lg" photo={sokDaraPhoto} />
+          <div className="flex-1 pt-1">
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-bold text-foreground" style={displayFont(lang)}>{lang === "km" ? "សុខ ដារ៉ា" : "Sok Dara"}</h1>
               <Shield size={14} className="text-emerald-600" />
@@ -1298,19 +1680,26 @@ function BuyerHome({ setScreen }: { setScreen: (s: string) => void }) {
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {listings.slice(0, 3).map((l) => (
-            <div key={l.id} className="bg-card border border-border rounded-xl p-3 flex-shrink-0 w-44">
-              <div className="flex items-center gap-2 mb-2">
-                <Avatar initials={l.badge} size="sm" />
-                <div>
-                  <p className="text-xs font-semibold text-foreground leading-tight" style={khFont(lang)}>{l.farmer}</p>
-                  {l.verified && <Shield size={9} className="text-emerald-600" />}
-                </div>
+            <div key={l.id} className="bg-card border border-border rounded-xl overflow-hidden flex-shrink-0 w-44">
+              <div className="relative h-20 bg-secondary">
+                <ImageWithFallback src={l.photo} alt={l.variety} className="w-full h-full object-cover" />
+                {l.verified && (
+                  <div className="absolute top-1.5 right-1.5 bg-card/90 backdrop-blur rounded-full p-1">
+                    <Shield size={9} className="text-emerald-600" />
+                  </div>
+                )}
               </div>
-              <p className="text-xs font-semibold text-foreground" style={khFont(lang)}>{l.variety}</p>
-              <p className="text-[10px] text-muted-foreground" style={khFont(lang)}>{l.qty} · {l.province}</p>
-              <div className="mt-2 pt-2 border-t border-border flex items-center justify-between">
-                <span className="text-sm font-bold text-foreground" style={{ fontFamily: "DM Mono, monospace" }}>{l.price.toLocaleString()}</span>
-                <span className="text-[9px] text-muted-foreground">KHR/kg</span>
+              <div className="p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <Avatar initials={l.badge} size="sm" photo={l.avatarPhoto} />
+                  <p className="text-xs font-semibold text-foreground leading-tight truncate" style={khFont(lang)}>{l.farmer}</p>
+                </div>
+                <p className="text-xs font-semibold text-foreground" style={khFont(lang)}>{l.variety}</p>
+                <p className="text-[10px] text-muted-foreground" style={khFont(lang)}>{l.qty} · {l.province}</p>
+                <div className="mt-2 pt-2 border-t border-border flex items-center justify-between">
+                  <span className="text-sm font-bold text-foreground" style={{ fontFamily: "DM Mono, monospace" }}>{l.price.toLocaleString()}</span>
+                  <span className="text-[9px] text-muted-foreground">KHR/kg</span>
+                </div>
               </div>
             </div>
           ))}
@@ -1340,7 +1729,7 @@ function BuyerHome({ setScreen }: { setScreen: (s: string) => void }) {
         <div className="space-y-2">
           {listings.slice(0, 2).map((l) => (
             <div key={l.id} className="bg-card border border-border rounded-xl px-3 py-2.5 flex items-center gap-3">
-              <Avatar initials={l.badge} size="sm" />
+              <Avatar initials={l.badge} size="sm" photo={l.avatarPhoto} />
               <div className="flex-1">
                 <div className="flex items-center gap-1">
                   <p className="text-sm font-semibold text-foreground" style={khFont(lang)}>{l.farmer}</p>
@@ -1386,8 +1775,15 @@ function FindRiceScreen({ setScreen }: { setScreen: (s: string) => void }) {
           <p className="text-sm font-semibold text-foreground" style={khFont(lang)}>{t.listingDetail}</p>
         </div>
         <div className="px-4 pt-4 pb-6 space-y-4">
+          <div className="rounded-xl overflow-hidden h-40 bg-secondary relative">
+            <ImageWithFallback src={l.photo} alt={l.variety} className="w-full h-full object-cover" />
+            <div className="absolute top-2 right-2">
+              <Badge text={l.variety} color="bg-card/90 backdrop-blur text-foreground" />
+            </div>
+          </div>
+
           <div className="bg-card border border-border rounded-xl p-4 flex items-center gap-3">
-            <Avatar initials={l.badge} size="lg" />
+            <Avatar initials={l.badge} size="lg" photo={l.avatarPhoto} />
             <div className="flex-1">
               <div className="flex items-center gap-1.5">
                 <h2 className="text-base font-bold text-foreground" style={displayFont(lang)}>{l.farmer}</h2>
@@ -1466,13 +1862,16 @@ function FindRiceScreen({ setScreen }: { setScreen: (s: string) => void }) {
       <p className="px-4 text-[11px] text-muted-foreground mb-2" style={khFont(lang)}>{filtered.length} {t.listingsFound}</p>
       <div className="px-4 space-y-2 pb-6">
         {filtered.map((l) => (
-          <button key={l.id} onClick={() => setSelected(l.id)} className="w-full bg-card border border-border rounded-xl p-3 text-left">
-            <div className="flex items-start gap-3">
-              <Avatar initials={l.badge} size="sm" />
+          <button key={l.id} onClick={() => setSelected(l.id)} className="w-full bg-card border border-border rounded-xl p-2.5 text-left">
+            <div className="flex items-center gap-3">
+              <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-secondary">
+                <ImageWithFallback src={l.photo} alt={l.variety} className="w-full h-full object-cover" />
+              </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1">
-                  <p className="text-sm font-semibold text-foreground" style={khFont(lang)}>{l.farmer}</p>
-                  {l.verified && <Shield size={10} className="text-emerald-600" />}
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <Avatar initials={l.badge} size="sm" photo={l.avatarPhoto} />
+                  <p className="text-sm font-semibold text-foreground truncate" style={khFont(lang)}>{l.farmer}</p>
+                  {l.verified && <Shield size={10} className="text-emerald-600 flex-shrink-0" />}
                 </div>
                 <p className="text-xs text-muted-foreground" style={khFont(lang)}>{l.variety} · {l.qty}</p>
                 <div className="flex items-center gap-1 mt-0.5">
@@ -1480,7 +1879,7 @@ function FindRiceScreen({ setScreen }: { setScreen: (s: string) => void }) {
                   <span className="text-[10px] text-muted-foreground" style={khFont(lang)}>{l.province}</span>
                 </div>
               </div>
-              <div className="text-right">
+              <div className="text-right flex-shrink-0">
                 <p className="text-sm font-bold text-foreground" style={{ fontFamily: "DM Mono, monospace" }}>{l.price.toLocaleString()}</p>
                 <p className="text-[9px] text-muted-foreground">KHR/kg</p>
                 <StarRow rating={l.rating} count={l.reviews} />
