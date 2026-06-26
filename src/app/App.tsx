@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import {
   Home,
   BarChart2,
@@ -15,13 +15,14 @@ import {
   ChevronRight,
   ArrowLeft,
   Send,
-  Filter,
   FileText,
   CheckCircle,
   AlertCircle,
   Package,
   X,
   Check,
+  Phone,
+  Sprout,
 } from "lucide-react";
 import {
   LineChart,
@@ -51,6 +52,22 @@ const translations = {
     profile: "Profile",
     findRice: "Find Rice",
     trace: "Trace",
+    // Splash
+    splashLine: "Fair prices, straight from the field",
+    // Login
+    loginAs: "Continue as",
+    phoneNumber: "Phone Number",
+    phoneHint: "We'll send a 6-digit code to verify it's you",
+    continueBtn: "Continue",
+    enterCode: "Enter the code",
+    codeHint: "Code sent to",
+    changeNumber: "Change number",
+    resendCode: "Resend code",
+    resendIn: "Resend in",
+    verifyBtn: "Verify & Continue",
+    or: "or",
+    continueGuest: "Continue as Guest",
+    newHere: "New to SrovChlart? Just enter your number — we'll set up your account.",
     // Farmer Home
     goodMorning: "Good morning,",
     verifiedFarmer: "Verified Farmer",
@@ -159,6 +176,22 @@ const translations = {
     profile: "គណនី",
     findRice: "រកអង្ករ",
     trace: "តាមដាន",
+    // Splash
+    splashLine: "តម្លៃយុត្តិធម៌ ផ្ទាល់ពីចម្ការ",
+    // Login
+    loginAs: "បន្តក្នុងនាមជា",
+    phoneNumber: "លេខទូរស័ព្ទ",
+    phoneHint: "យើងនឹងផ្ញើលេខកូដ៦ខ្ទង់ ដើម្បីផ្ទៀងផ្ទាត់",
+    continueBtn: "បន្ត",
+    enterCode: "បញ្ចូលលេខកូដ",
+    codeHint: "កូដបានផ្ញើទៅ",
+    changeNumber: "ប្ដូរលេខទូរស័ព្ទ",
+    resendCode: "ផ្ញើកូដម្ដងទៀត",
+    resendIn: "ផ្ញើម្ដងទៀតក្នុង",
+    verifyBtn: "ផ្ទៀងផ្ទាត់ & បន្ត",
+    or: "ឬ",
+    continueGuest: "បន្តជាភ្ញៀវ",
+    newHere: "ថ្មីលើ SrovChlart? គ្រាន់តែបញ្ចូលលេខទូរស័ព្ទ — យើងនឹងរៀបចំគណនីឲ្យលោកអ្នក។",
     // Farmer Home
     goodMorning: "អរុណសួស្ដី,",
     verifiedFarmer: "កសិករបានផ្ទៀងផ្ទាត់",
@@ -451,6 +484,303 @@ function SectionLabel({ children }: { children: string }) {
   const { lang } = useLang();
   return (
     <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground" style={lang === "km" ? { fontFamily: "'Noto Sans Khmer', sans-serif", textTransform: "none", letterSpacing: 0 } : {}}>{children}</p>
+  );
+}
+
+/* ─── SPLASH SCREEN ──────────────────────────────────────── */
+
+function SplashScreen({ onDone }: { onDone: () => void }) {
+  const { t, lang } = useLang();
+  const [stage, setStage] = useState(0); // 0 = grow in, 1 = settled, 2 = fade out
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setStage(1), 700);
+    const t2 = setTimeout(() => setStage(2), 2100);
+    const t3 = setTimeout(onDone, 2550);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div
+      className="flex flex-col items-center justify-center h-full px-8 transition-opacity duration-500"
+      style={{ background: "#1A4731", opacity: stage === 2 ? 0 : 1 }}
+    >
+      {/* signature mark: three sprouts rising at staggered heights, like rice stalks */}
+      <div className="flex items-end gap-3 mb-5" style={{ height: 56 }}>
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className="flex items-end justify-center"
+            style={{
+              width: 3,
+              height: stage >= 1 ? [34, 56, 42][i] : 0,
+              background: "#C8A84B",
+              borderRadius: 2,
+              transition: `height 600ms cubic-bezier(0.34, 1.56, 0.64, 1) ${i * 120}ms`,
+            }}
+          />
+        ))}
+      </div>
+
+      <h1
+        className="text-3xl font-bold tracking-tight"
+        style={{
+          color: "#FFFDF7",
+          fontFamily: lang === "km" ? "'Noto Sans Khmer', sans-serif" : "Outfit, sans-serif",
+          opacity: stage >= 1 ? 1 : 0,
+          transform: stage >= 1 ? "translateY(0)" : "translateY(6px)",
+          transition: "opacity 500ms ease, transform 500ms ease",
+        }}
+      >
+        {lang === "km" ? "ស្រូវឆ្លាត" : "SrovChlart"}
+      </h1>
+      <p
+        className="text-xs mt-2 text-center"
+        style={{
+          color: "rgba(255,253,247,0.65)",
+          fontFamily: lang === "km" ? "'Noto Sans Khmer', sans-serif" : "DM Sans, sans-serif",
+          opacity: stage >= 1 ? 1 : 0,
+          transition: "opacity 500ms ease 150ms",
+        }}
+      >
+        {t.splashLine}
+      </p>
+
+      <div className="absolute bottom-12 flex gap-1.5">
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className="w-1.5 h-1.5 rounded-full"
+            style={{
+              background: "#C8A84B",
+              opacity: stage >= 1 ? 0.9 : 0.25,
+              animation: stage >= 1 ? `srov-pulse 1.1s ease-in-out ${i * 0.15}s infinite` : "none",
+            }}
+          />
+        ))}
+      </div>
+      <style>{`
+        @keyframes srov-pulse {
+          0%, 100% { transform: scale(1); opacity: 0.4; }
+          50% { transform: scale(1.4); opacity: 1; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+/* ─── LOGIN / OTP SCREEN ─────────────────────────────────── */
+
+function LoginScreen({
+  role,
+  onRoleChange,
+  onLoggedIn,
+  onGuest,
+}: {
+  role: "farmer" | "buyer";
+  onRoleChange: (r: "farmer" | "buyer") => void;
+  onLoggedIn: () => void;
+  onGuest: () => void;
+}) {
+  const { t, lang } = useLang();
+  const [phase, setPhase] = useState<"phone" | "otp">("phone");
+  const [phone, setPhone] = useState("");
+  const [code, setCode] = useState(["", "", "", "", "", ""]);
+  const [seconds, setSeconds] = useState(30);
+
+  useEffect(() => {
+    if (phase !== "otp") return;
+    if (seconds <= 0) return;
+    const id = setTimeout(() => setSeconds((s) => s - 1), 1000);
+    return () => clearTimeout(id);
+  }, [phase, seconds]);
+
+  const phoneValid = phone.replace(/\D/g, "").length >= 8;
+  const codeComplete = code.every((c) => c !== "");
+
+  function handleCodeChange(idx: number, val: string) {
+    if (!/^\d?$/.test(val)) return;
+    const next = [...code];
+    next[idx] = val;
+    setCode(next);
+    if (val && idx < 5) {
+      const el = document.getElementById(`srov-otp-${idx + 1}`);
+      (el as HTMLInputElement | null)?.focus();
+    }
+  }
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Top identity strip */}
+      <div className="px-6 pt-8 pb-4 flex-shrink-0">
+        {phase === "otp" ? (
+          <button
+            onClick={() => { setPhase("phone"); setCode(["", "", "", "", "", ""]); }}
+            className="flex items-center gap-1.5 text-xs text-muted-foreground mb-5"
+          >
+            <ArrowLeft size={14} /> {t.changeNumber}
+          </button>
+        ) : (
+          <div className="flex items-end gap-2 mb-5" style={{ height: 28 }}>
+            {[18, 28, 22].map((h, i) => (
+              <div key={i} style={{ width: 3, height: h, background: "#C8A84B", borderRadius: 2 }} />
+            ))}
+          </div>
+        )}
+
+        <h1 className="text-2xl font-bold text-foreground" style={displayFont(lang)}>
+          {phase === "phone" ? (lang === "km" ? "សូមស្វាគមន៍" : "Welcome") : t.enterCode}
+        </h1>
+        <p className="text-xs text-muted-foreground mt-1" style={khFont(lang)}>
+          {phase === "phone" ? t.phoneHint : `${t.codeHint} ${phone || "+855 •• ••• •••"}`}
+        </p>
+      </div>
+
+      <div className="flex-1 overflow-y-auto scrollbar-hide px-6">
+        {/* Role selector — only relevant before identity is confirmed */}
+        {phase === "phone" && (
+          <div className="mb-5">
+            <label
+              className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-2"
+              style={lang === "km" ? { fontFamily: "'Noto Sans Khmer', sans-serif", textTransform: "none", letterSpacing: 0 } : {}}
+            >
+              {t.loginAs}
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => onRoleChange("farmer")}
+                className={`py-3 rounded-xl text-sm font-semibold border transition-all flex flex-col items-center gap-1.5 ${
+                  role === "farmer" ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border text-foreground"
+                }`}
+                style={khFont(lang)}
+              >
+                <Sprout size={16} />
+                {t.farmerView.replace(" View", "").replace("ទស្សនៈ", "")}
+              </button>
+              <button
+                onClick={() => onRoleChange("buyer")}
+                className={`py-3 rounded-xl text-sm font-semibold border transition-all flex flex-col items-center gap-1.5 ${
+                  role === "buyer" ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border text-foreground"
+                }`}
+                style={khFont(lang)}
+              >
+                <Package size={16} />
+                {t.buyerView.replace(" View", "").replace("ទស្សនៈ", "")}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {phase === "phone" ? (
+          <div className="mb-2">
+            <label
+              className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5"
+              style={lang === "km" ? { fontFamily: "'Noto Sans Khmer', sans-serif", textTransform: "none", letterSpacing: 0 } : {}}
+            >
+              {t.phoneNumber}
+            </label>
+            <div className="flex items-center bg-card border border-border rounded-xl px-3 focus-within:ring-1 focus-within:ring-primary">
+              <span className="text-sm text-muted-foreground font-medium pr-2 border-r border-border mr-2" style={{ fontFamily: "DM Mono, monospace" }}>
+                +855
+              </span>
+              <Phone size={14} className="text-muted-foreground mr-2" />
+              <input
+                type="tel"
+                inputMode="numeric"
+                placeholder="12 345 678"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="flex-1 bg-transparent py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+                style={{ fontFamily: "DM Mono, monospace" }}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="flex justify-between gap-2 mb-2">
+            {code.map((c, i) => (
+              <input
+                key={i}
+                id={`srov-otp-${i}`}
+                value={c}
+                onChange={(e) => handleCodeChange(i, e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Backspace" && !c && i > 0) {
+                    const el = document.getElementById(`srov-otp-${i - 1}`);
+                    (el as HTMLInputElement | null)?.focus();
+                  }
+                }}
+                inputMode="numeric"
+                maxLength={1}
+                className={`w-full aspect-square text-center text-lg font-bold rounded-xl border bg-card text-foreground focus:outline-none focus:ring-1 focus:ring-primary ${
+                  c ? "border-primary" : "border-border"
+                }`}
+                style={{ fontFamily: "DM Mono, monospace" }}
+              />
+            ))}
+          </div>
+        )}
+
+        {phase === "otp" && (
+          <div className="text-center mt-3">
+            {seconds > 0 ? (
+              <p className="text-xs text-muted-foreground" style={khFont(lang)}>
+                {t.resendIn} <span style={{ fontFamily: "DM Mono, monospace" }}>0:{seconds.toString().padStart(2, "0")}</span>
+              </p>
+            ) : (
+              <button onClick={() => setSeconds(30)} className="text-xs text-primary font-semibold" style={khFont(lang)}>
+                {t.resendCode}
+              </button>
+            )}
+          </div>
+        )}
+
+        {phase === "phone" && (
+          <p className="text-[11px] text-muted-foreground mt-4 leading-relaxed" style={khFont(lang)}>
+            {t.newHere}
+          </p>
+        )}
+      </div>
+
+      <div className="px-6 pb-7 pt-3 flex-shrink-0 space-y-3">
+        {phase === "phone" ? (
+          <button
+            disabled={!phoneValid}
+            onClick={() => setPhase("otp")}
+            className={`w-full py-3 rounded-xl text-sm font-semibold transition-colors ${
+              phoneValid ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary text-muted-foreground"
+            }`}
+            style={khFont(lang)}
+          >
+            {t.continueBtn}
+          </button>
+        ) : (
+          <button
+            disabled={!codeComplete}
+            onClick={onLoggedIn}
+            className={`w-full py-3 rounded-xl text-sm font-semibold transition-colors ${
+              codeComplete ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-secondary text-muted-foreground"
+            }`}
+            style={khFont(lang)}
+          >
+            {t.verifyBtn}
+          </button>
+        )}
+
+        {phase === "phone" && (
+          <>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 h-px bg-border" />
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider" style={khFont(lang)}>{t.or}</span>
+              <div className="flex-1 h-px bg-border" />
+            </div>
+            <button onClick={onGuest} className="w-full py-3 rounded-xl text-sm font-semibold border border-border bg-card text-foreground" style={khFont(lang)}>
+              {t.continueGuest}
+            </button>
+          </>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -1262,6 +1592,7 @@ export default function App() {
   const [role, setRole] = useState<"farmer" | "buyer">("farmer");
   const [screen, setScreen] = useState("home");
   const [lang, setLang] = useState<Lang>("en");
+  const [authStage, setAuthStage] = useState<"splash" | "login" | "app">("splash");
 
   const t = translations[lang] as T & { lang?: Lang };
   const contextValue = { lang, t: { ...t, lang } as any, setLang };
@@ -1300,39 +1631,53 @@ export default function App() {
   return (
     <LangContext.Provider value={contextValue}>
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4" style={{ fontFamily: bodyFont }}>
-        {/* Header controls */}
-        <div className="mb-6 flex flex-col items-center gap-2">
-          <div className="flex items-center gap-1.5">
-            <span className="text-xl font-bold text-primary" style={{ fontFamily: lang === "km" ? "'Noto Sans Khmer', sans-serif" : "Outfit, sans-serif" }}>
-              {lang === "km" ? "ស្រូវឆ្លាត" : "SrovChlart"}
-            </span>
-            <span className="text-xs text-muted-foreground px-2 py-0.5 bg-accent/20 rounded-full font-medium" style={{ fontFamily: bodyFont }}>
-              {t.prototype}
-            </span>
-          </div>
-          <p className="text-xs text-muted-foreground" style={{ fontFamily: bodyFont }}>{t.tagline}</p>
+        {/* Header controls — hidden during splash/login for a focused onboarding feel */}
+        {authStage === "app" && (
+          <div className="mb-6 flex flex-col items-center gap-2">
+            <div className="flex items-center gap-1.5">
+              <span className="text-xl font-bold text-primary" style={{ fontFamily: lang === "km" ? "'Noto Sans Khmer', sans-serif" : "Outfit, sans-serif" }}>
+                {lang === "km" ? "ស្រូវឆ្លាត" : "SrovChlart"}
+              </span>
+              <span className="text-xs text-muted-foreground px-2 py-0.5 bg-accent/20 rounded-full font-medium" style={{ fontFamily: bodyFont }}>
+                {t.prototype}
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground" style={{ fontFamily: bodyFont }}>{t.tagline}</p>
 
-          {/* Role + Language row */}
-          <div className="flex items-center gap-2 mt-1">
-            <div className="flex gap-1 bg-secondary rounded-xl p-1">
-              <button onClick={() => switchRole("farmer")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${role === "farmer" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground"}`} style={{ fontFamily: bodyFont }}>
-                {t.farmerView}
-              </button>
-              <button onClick={() => switchRole("buyer")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${role === "buyer" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground"}`} style={{ fontFamily: bodyFont }}>
-                {t.buyerView}
-              </button>
-            </div>
-            {/* Language toggle */}
-            <div className="flex gap-1 bg-secondary rounded-xl p-1">
-              <button onClick={() => setLang("en")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${lang === "en" ? "bg-accent text-foreground shadow-sm" : "text-muted-foreground"}`}>
-                EN
-              </button>
-              <button onClick={() => setLang("km")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${lang === "km" ? "bg-accent text-foreground shadow-sm" : "text-muted-foreground"}`} style={{ fontFamily: "'Noto Sans Khmer', sans-serif" }}>
-                ខ្មែរ
-              </button>
+            {/* Role + Language row */}
+            <div className="flex items-center gap-2 mt-1">
+              <div className="flex gap-1 bg-secondary rounded-xl p-1">
+                <button onClick={() => switchRole("farmer")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${role === "farmer" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground"}`} style={{ fontFamily: bodyFont }}>
+                  {t.farmerView}
+                </button>
+                <button onClick={() => switchRole("buyer")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${role === "buyer" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground"}`} style={{ fontFamily: bodyFont }}>
+                  {t.buyerView}
+                </button>
+              </div>
+              {/* Language toggle */}
+              <div className="flex gap-1 bg-secondary rounded-xl p-1">
+                <button onClick={() => setLang("en")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${lang === "en" ? "bg-accent text-foreground shadow-sm" : "text-muted-foreground"}`}>
+                  EN
+                </button>
+                <button onClick={() => setLang("km")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${lang === "km" ? "bg-accent text-foreground shadow-sm" : "text-muted-foreground"}`} style={{ fontFamily: "'Noto Sans Khmer', sans-serif" }}>
+                  ខ្មែរ
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {/* Compact language toggle during onboarding, top-right of frame */}
+        {authStage !== "app" && (
+          <div className="mb-3 flex gap-1 bg-secondary rounded-xl p-1">
+            <button onClick={() => setLang("en")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${lang === "en" ? "bg-accent text-foreground shadow-sm" : "text-muted-foreground"}`}>
+              EN
+            </button>
+            <button onClick={() => setLang("km")} className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${lang === "km" ? "bg-accent text-foreground shadow-sm" : "text-muted-foreground"}`} style={{ fontFamily: "'Noto Sans Khmer', sans-serif" }}>
+              ខ្មែរ
+            </button>
+          </div>
+        )}
 
         {/* Phone frame */}
         <div
@@ -1340,55 +1685,68 @@ export default function App() {
           style={{ width: 375, height: 720, borderRadius: 44, border: "8px solid #1A4731", boxShadow: "0 32px 64px rgba(26,71,49,0.25), 0 0 0 1px rgba(26,71,49,0.08)" }}
         >
           {/* Status bar */}
-          <div className="flex items-center justify-between px-6 pt-3 pb-1 flex-shrink-0 bg-card">
-            <span className="text-[11px] font-semibold text-foreground" style={{ fontFamily: "DM Mono, monospace" }}>9:41</span>
+          <div className="flex items-center justify-between px-6 pt-3 pb-1 flex-shrink-0 bg-card" style={{ background: authStage === "splash" ? "#1A4731" : undefined }}>
+            <span className="text-[11px] font-semibold" style={{ fontFamily: "DM Mono, monospace", color: authStage === "splash" ? "#FFFDF7" : undefined }}>9:41</span>
             <div className="w-20 h-5 bg-foreground rounded-full mx-auto absolute left-1/2 -translate-x-1/2 top-2 opacity-90" />
             <div className="flex items-center gap-1">
               <div className="flex gap-0.5 items-end">
                 {[3, 5, 7, 9].map((h, i) => (
-                  <div key={i} className="w-0.5 bg-foreground rounded-sm" style={{ height: h }} />
+                  <div key={i} className="w-0.5 rounded-sm" style={{ height: h, background: authStage === "splash" ? "#FFFDF7" : "var(--foreground)" }} />
                 ))}
               </div>
-              <div className="w-4 h-2.5 border border-foreground rounded-sm relative">
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full w-0.5 h-1.5 bg-foreground rounded-r-sm" />
-                <div className="absolute inset-0.5 bg-foreground rounded-sm" style={{ width: "70%" }} />
+              <div className="w-4 h-2.5 border rounded-sm relative" style={{ borderColor: authStage === "splash" ? "#FFFDF7" : "var(--foreground)" }}>
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full w-0.5 h-1.5 rounded-r-sm" style={{ background: authStage === "splash" ? "#FFFDF7" : "var(--foreground)" }} />
+                <div className="absolute inset-0.5 rounded-sm" style={{ width: "70%", background: authStage === "splash" ? "#FFFDF7" : "var(--foreground)" }} />
               </div>
             </div>
           </div>
 
           {/* Screen content */}
           <div className="flex-1 overflow-hidden" style={{ fontFamily: bodyFont }}>
-            {renderScreen()}
+            {authStage === "splash" && <SplashScreen onDone={() => setAuthStage("login")} />}
+            {authStage === "login" && (
+              <LoginScreen
+                role={role}
+                onRoleChange={setRole}
+                onLoggedIn={() => setAuthStage("app")}
+                onGuest={() => setAuthStage("app")}
+              />
+            )}
+            {authStage === "app" && renderScreen()}
           </div>
 
-          {/* Bottom nav */}
-          <div className="flex-shrink-0 bg-card border-t border-border px-2 pb-5 pt-1">
-            <div className="flex">
-              {nav.map((item) => {
-                const Icon = item.icon;
-                const active = screen === item.id;
-                const isPost = item.id === "post";
-                const label = t[item.labelKey] as string;
-                return (
-                  <button key={item.id} onClick={() => setScreen(item.id)} className="flex-1 flex flex-col items-center gap-0.5 pt-2 pb-1 transition-all">
-                    {isPost ? (
-                      <div className="w-10 h-10 bg-primary rounded-2xl flex items-center justify-center shadow-md mb-0.5 -mt-4">
-                        <Icon size={18} className="text-primary-foreground" />
-                      </div>
-                    ) : (
-                      <Icon size={20} className={`transition-colors ${active ? "text-primary" : "text-muted-foreground"}`} strokeWidth={active ? 2.5 : 1.8} />
-                    )}
-                    <span className={`text-[9px] font-semibold transition-colors leading-tight text-center ${active ? "text-primary" : "text-muted-foreground"}`} style={lang === "km" ? { fontFamily: "'Noto Sans Khmer', sans-serif", fontSize: "8px" } : {}}>
-                      {label}
-                    </span>
-                  </button>
-                );
-              })}
+          {/* Bottom nav — only once inside the app */}
+          {authStage === "app" && (
+            <div className="flex-shrink-0 bg-card border-t border-border px-2 pb-5 pt-1">
+              <div className="flex">
+                {nav.map((item) => {
+                  const Icon = item.icon;
+                  const active = screen === item.id;
+                  const isPost = item.id === "post";
+                  const label = t[item.labelKey] as string;
+                  return (
+                    <button key={item.id} onClick={() => setScreen(item.id)} className="flex-1 flex flex-col items-center gap-0.5 pt-2 pb-1 transition-all">
+                      {isPost ? (
+                        <div className="w-10 h-10 bg-primary rounded-2xl flex items-center justify-center shadow-md mb-0.5 -mt-4">
+                          <Icon size={18} className="text-primary-foreground" />
+                        </div>
+                      ) : (
+                        <Icon size={20} className={`transition-colors ${active ? "text-primary" : "text-muted-foreground"}`} strokeWidth={active ? 2.5 : 1.8} />
+                      )}
+                      <span className={`text-[9px] font-semibold transition-colors leading-tight text-center ${active ? "text-primary" : "text-muted-foreground"}`} style={lang === "km" ? { fontFamily: "'Noto Sans Khmer', sans-serif", fontSize: "8px" } : {}}>
+                        {label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
-        <p className="mt-4 text-[11px] text-muted-foreground" style={{ fontFamily: bodyFont }}>{t.tapNav}</p>
+        <p className="mt-4 text-[11px] text-muted-foreground" style={{ fontFamily: bodyFont }}>
+          {authStage === "app" ? t.tapNav : (lang === "km" ? "គំរូចូល · ការផ្ទៀងផ្ទាត់គឺសម្រាប់បង្ហាញតែប៉ុណ្ណោះ" : "Onboarding demo · verification is simulated")}
+        </p>
       </div>
     </LangContext.Provider>
   );
