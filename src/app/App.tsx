@@ -59,7 +59,7 @@ const translations = {
     continueBtn:"Continue", enterCode:"Enter the code", codeHint:"Code sent to",
     changeNumber:"Change number", resendCode:"Resend code", resendIn:"Resend in",
     verifyBtn:"Verify & Continue", or:"or", continueGuest:"Continue as Guest",
-    newHere:"New to KurSrov? Just enter your number — we'll set up your account.",
+    newHere:"New to KourSrov? Just enter your number — we'll set up your account.",
     goodMorning:"Good morning,", verifiedFarmer:"Verified Farmer",
     todayPrices:"Today's Market Prices", viewAll:"View all",
     myListings:"My Active Listings", add:"Add",
@@ -141,7 +141,7 @@ const translations = {
     changeNumber:"ប្ដូរលេខទូរស័ព្ទ", resendCode:"ផ្ញើកូដម្ដងទៀត",
     resendIn:"ផ្ញើម្ដងទៀតក្នុង", verifyBtn:"ផ្ទៀងផ្ទាត់ & បន្ត", or:"ឬ",
     continueGuest:"បន្តជាភ្ញៀវ",
-    newHere:"ថ្មីលើ KurSrov? គ្រាន់តែបញ្ចូលលេខទូរស័ព្ទ — យើងនឹងរៀបចំគណនីឲ្យ។",
+    newHere:"ថ្មីលើ KourSrov? គ្រាន់តែបញ្ចូលលេខទូរស័ព្ទ — យើងនឹងរៀបចំគណនីឲ្យ។",
     goodMorning:"អរុណសួស្ដី,", verifiedFarmer:"កសិករបានផ្ទៀងផ្ទាត់",
     todayPrices:"តម្លៃទីផ្សារថ្ងៃនេះ", viewAll:"មើលទាំងអស់",
     myListings:"បញ្ជីដំណូរសកម្ម", add:"បន្ថែម",
@@ -562,7 +562,7 @@ function SplashScreen({ onDone }: { onDone:()=>void }) {
   },[]);
   return (
     <div className="flex flex-col items-center justify-center h-full px-8 transition-opacity duration-500 relative overflow-hidden"
-      style={{ background:C.forestDeep, opacity:stage===2?0:1 }}>
+      style={{ opacity:stage===2?0:1 }}>
       <div className="absolute inset-0" style={{
         backgroundImage:"url(https://images.unsplash.com/photo-1536304993881-ff6e9eefa49a?w=800&q=60)",
         backgroundSize:"cover", backgroundPosition:"center",
@@ -573,7 +573,7 @@ function SplashScreen({ onDone }: { onDone:()=>void }) {
         transition:"all 700ms cubic-bezier(0.34,1.56,0.64,1)" }}>
         <div className="w-20 h-20 rounded-2xl flex items-center justify-center"
           style={{ background:`linear-gradient(135deg,${C.forest},${C.forestDeep})` }}>
-                <img src={LOGO_SRC} alt="KurSrov" className="w-full h-full object-contain drop-shadow-lg" />
+                <img src={LOGO_SRC} alt="KourSrov" className="w-full h-full object-contain drop-shadow-lg" />
 
         </div>
       </div>
@@ -581,7 +581,7 @@ function SplashScreen({ onDone }: { onDone:()=>void }) {
         style={{ color:"#FCFAF2", ...displayFont(lang),
           opacity:stage>=1?1:0, transform:stage>=1?"translateY(0)":"translateY(8px)",
           transition:"all 500ms ease 100ms" }}>
-        {lang==="km"?"កួរស្រូវ":"KurSrov"}
+        {lang==="km"?"កួរស្រូវ":"KourSrov"}
       </h1>
       <p className="text-xs mt-2 text-center relative z-10"
         style={{ color:"rgba(252,250,242,0.65)", ...khFont(lang),
@@ -627,10 +627,10 @@ function LoginScreen({ role, onRoleChange, onLoggedIn, onGuest }:
               <ArrowLeft size={14}/>{t.changeNumber}</button>
           : <div className="mb-5 flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl flex items-center justify-center" >
-                <img src={LOGO_SRC} alt="KurSrov" className="w-full h-full object-contain drop-shadow-lg" />
+                <img src={LOGO_SRC} alt="KourSrov" className="w-full h-full object-contain drop-shadow-lg" />
               </div>
               <div>
-                <p className="text-lg font-bold" style={{ color:C.forest, ...displayFont(lang) }}>{lang==="km"?"កួរស្រូវ":"KurSrov"}</p>
+                <p className="text-lg font-bold" style={{ color:C.forest, ...displayFont(lang) }}>{lang==="km"?"កួរស្រូវ":"KourSrov"}</p>
                 <p className="text-[10px]" style={{ color:C.muted }}>Cambodia Rice Market</p>
               </div>
             </div>}
@@ -1993,7 +1993,7 @@ function BuyerProfileScreen() {
           <p className="text-xs leading-relaxed" style={{ color:C.muted,...khFont(lang) }}>{bp.about}</p>
           <div className="grid grid-cols-2 gap-3 mt-3 pt-3" style={{ borderTop:`1px solid ${C.lineOnCard}` }}>
             <div className="flex items-center gap-2">
-                <img src={LOGO_SRC} alt="KurSrov" className="w-full h-full object-contain drop-shadow-lg" />
+                <img src={LOGO_SRC} alt="KourSrov" className="w-full h-full object-contain drop-shadow-lg" />
               <div>
                 <p className="text-[10px]" style={{ color:C.muted,...khFont(lang) }}>{t.preferredVariety}</p>
                 <p className="text-xs font-semibold" style={{ color:C.ink,...khFont(lang) }}>{bp.preferredVariety}</p>
@@ -2050,8 +2050,8 @@ function BuyerProfileScreen() {
 function TraceabilityScreen() {
   const {t,lang} = useLang();
   const steps = [
-    {step:lang==="km"?"ប្រមូលផលត្រូវបានកត់ត្រា":"Harvest logged on KurSrov",date:"Jun 18",done:true},
-    {step:lang==="km"?"ប្រកាសបញ្ជីលើ KurSrov":"Listing posted & verified",date:"Jun 20",done:true},
+    {step:lang==="km"?"ប្រមូលផលត្រូវបានកត់ត្រា":"Harvest logged on KourSrov",date:"Jun 18",done:true},
+    {step:lang==="km"?"ប្រកាសបញ្ជីលើ KourSrov":"Listing posted & verified",date:"Jun 20",done:true},
     {step:lang==="km"?"អ្នកទិញបានទំនាក់ទំនង":"Buyer contacted farmer",date:"Jun 22",done:true},
     {step:lang==="km"?"កិច្ចព្រមព្រៀងបានបញ្ជាក់":"In-app deal confirmed",date:"Jun 25",done:true},
     {step:lang==="km"?"ការទទួលទំនិញបានកំណត់":"Pickup scheduled",date:"Jul 2",done:false},
@@ -2231,14 +2231,7 @@ export default function App() {
 
         {authStage==="app"&&(
           <div className="mb-5 flex flex-col items-center gap-2">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:C.forest }}>
-                <img src={LOGO_SRC} alt="KurSrov" className="w-full h-full object-contain drop-shadow-lg" />
-              </div>
-              <span className="text-xl font-bold" style={{ color:C.forest,...displayFont(lang) }}>{lang==="km"?"កួរស្រូវ":"KurSrov"}</span>
-              <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ color:"#8A6B16",background:C.goldPale }}>Beta</span>
-            </div>
-            <p className="text-xs" style={{ color:C.muted,fontFamily:bodyFont }}>{t.tagline}</p>
+           
             <div className="flex items-center gap-2 mt-1">
               <div className="flex gap-1 rounded-xl p-1" style={{ background:"#EFEAD9" }}>
                 {(["farmer","buyer"]as const).map(r=>(
