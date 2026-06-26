@@ -362,7 +362,7 @@ const learnArticlesData = (t: T & { lang: Lang }) => {
       title: km?"រយៈពេលត្រឹមត្រូវសម្រាប់ដាំស្រូវម្លិះ":"Best Planting Window for Jasmine Rice",
       dek: km?"ដាំឲ្យត្រូវរដូវ ដើម្បីបានទិន្នផលខ្ពស់ និងគ្រាប់ស្រូវមានគុណភាពល្អ។"
             :"Time your sowing right and you'll see fuller grains and fewer losses at harvest.",
-      photo:"https://images.unsplash.com/photo-1536304993881-ff6e9eefa49a?w=600&h=360&fit=crop&q=75",
+      photo:"https://static.information.gov.kh/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBK2Z0QkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--9c9b01c9bac58ce115466d361a9ba7065b9f65d1/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lNT1RBd2VEWXdNQVk2QmtWVSIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--70cbddbba2e46c7ca8ac0c1f8b8316d88752e16d/IMG_9215.jpeg",
       takeaways: km
         ? ["ដាំចន្លោះថ្ងៃទី ១៥ ខែឧសភា ដល់ដើមខែមិថុនា ដើម្បីចំរុះនឹងទឹកភ្លៀង","ប្រើពូជស្រូវដែលធន់នឹងគ្រាប់ស្រូវធ្លាក់មុនកាត់","ត្រួតពិនិត្យកំដៅដី មុនសាបព្រួស ៧ ថ្ងៃ"]
         : ["Sow between mid-May and early June to align with monsoon rains","Choose lodging-resistant varieties to reduce pre-harvest grain loss","Check soil temperature 7 days before sowing for even germination"],
@@ -375,7 +375,7 @@ const learnArticlesData = (t: T & { lang: Lang }) => {
       title: km?"បច្ចេកទេសស្រោចស្រពបន្តិចម្ដងៗដើម្បីសន្សំទឹក":"Alternate Wetting & Drying to Save Water",
       dek: km?"សន្សំទឹកដល់ទៅ ៣០% ដោយមិនប៉ះពាល់ដល់ទិន្នផល។"
             :"Cut water use by up to 30% without hurting yield — here's the technique.",
-      photo:"https://images.unsplash.com/photo-1602867741746-6df80f40c267?w=600&h=360&fit=crop&q=75",
+      photo:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqGJDR86qb_xmr2UP26AZjLEQRUcTsGcpP-w&s",
       takeaways: km
         ? ["ឲ្យដីស្ងួតរហូតដល់ ១៥ ស.ម ក្រោមផ្ទៃដី មុនស្រោចជាថ្មី","ប្រើបំពង់ PVC មានប្រហោងដើម្បីតាមដានកម្រិតទឹក","ឈប់ប្រើវិធីនេះ ២ សប្ដាហ៍មុនពេលចេញផ្កា"]
         : ["Let the field dry until the water table is 15cm below the surface before re-flooding","Use a perforated PVC pipe to monitor water depth easily","Stop alternating 2 weeks before flowering to protect yield"],
@@ -411,10 +411,10 @@ const learnArticlesData = (t: T & { lang: Lang }) => {
     },
     {
       id:"l5", cat:"finance" as LearnCat, minutes:7, source:"ACLEDA Bank",
-      title: km?"ផែនការសុចិត្ដចំណូលរបស់កសិករបន្ទាប់ពីប្រមូលផល":"Managing Cash Flow After Harvest",
+      title: km?"ផែនការចំណូលរបស់កសិករបន្ទាប់ពីប្រមូលផល":"Managing Cash Flow After Harvest",
       dek: km?"ការប្រមូលផលជោគជ័យតែមួយមិនអាចធានាបានទាំងឆ្នាំ — ផែនការទើបជាគន្លឹះ។"
             :"One good harvest doesn't guarantee a good year — planning does.",
-      photo:"https://images.unsplash.com/photo-1565514020179-026b92b2d70b?w=600&h=360&fit=crop&q=75",
+      photo:"https://www.khmertimeskh.com/wp-content/uploads/2024/10/90226.jpg",
       takeaways: km
         ? ["ដាក់ប្រាក់ ១០-១៥% នៃប្រាក់លក់ ទុកសម្រាប់ការចំណាយរដូវក្រោយ","កុំចង់បានប្រាក់ភ្លាមៗ ហើយលក់ថោកជាងតម្លៃទីផ្សារ","ប្រើកិច្ចសន្យាដឹកជញ្ជូនជាលក្ខណៈអក្សរសម្រាប់ការបញ្ជាទិញធំ"]
         : ["Set aside 10–15% of sale proceeds for next season's inputs before spending", "Avoid rushing to sell below market rate just to get cash quickly", "Use written agreements for large orders, even informal ones, to avoid disputes"],
